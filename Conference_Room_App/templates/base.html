@@ -2,24 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Conference rooms</title>
-    <style>
-        footer {
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    #footer {
         background-color: whitesmoke;
         color: #d11e18;
-        padding: 20px;
+        padding: 10px;
         text-align: center;
         }
 </style>
+    <title>{% block title %}Conference Rooms{% endblock %}</title>
 </head>
 <body>
-    <h1>MENU:</h1>
-    <label for="rooms_list">Rooms list</label>
-    <input type="submit" id="rooms_list" value="GO">
-    <label for="add_room">Add new room</label>
-    <input type="submit" id="add_room" value="GO">
-    <footer>
-        <p>Created by DAWID SOLEK</p>
-    </footer>
+<div id="header">
+    <h1>{% block header %}MENU{% endblock %}</h1>
+</div>
+<div id="content">
+    {% block content %}
+        <nav>
+        <ul>
+            <li><a href="{% url 'main_app:add_new_room' %}">Add new room</a></li>
+            <li><a>Rooms list</a></li>
+        </ul>
+    </nav>
+    {% endblock %}
+</div>
+<div id="footer">
+    <p>Created by DAWID SOLEK</p>
+</div>
 </body>
 </html>
