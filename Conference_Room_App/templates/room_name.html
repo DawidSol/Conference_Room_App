@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Room details{% endblock %}
+{% block header %}{{ room.name }}{% endblock %}
+{% block content %}
+    <p>Room capacity: {{ room.capacity }}</p>
+    {% if room.projector_available is True %}
+        <p>Projector is available</p>
+    {% else %}
+        <p>Projector is not available</p>
+    {% endif %}
+    <p>Room availability: </p>
+    <nav>
+        <ul>
+            <li><a>EDIT</a></li>
+            <li><a>DELETE</a></li>
+            <li><a>RESERVE</a></li>
+        </ul>
+    </nav>
+    
+{% endblock %}

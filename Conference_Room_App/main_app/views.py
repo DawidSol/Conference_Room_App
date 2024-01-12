@@ -18,6 +18,8 @@ def add_new_room(request):
             return HttpResponse("You must provide a name!")
         elif Room.objects.filter(name=name).exists():
             return HttpResponse("Room with this name already exists!")
+        elif not capacity:
+            return HttpResponse("You must provide room capacity!")
         elif int(capacity) <= 0:
             return HttpResponse("Capacity must be greater than 0!")
         elif not projector:
@@ -26,3 +28,19 @@ def add_new_room(request):
             new_room = Room(name=name, capacity=capacity, projector_available=projector)
             new_room.save()
             return render(request, "base.html")
+
+
+def rooms_list(request):
+    rooms = Room.objects.all()
+    if not rooms:
+        return HttpResponse("No rooms found!")
+    else:
+        return render(request, "rooms_list.html", {"rooms": rooms})
+
+
+def room_name(request, room_id):
+    try:
+        room = Room.objects.get(pk=room_id)
+        return render(request, 'room_name.html', {"room": room})
+    except Room.DoesNotExist:
+        return HttpResponse("Room does not exist!")
