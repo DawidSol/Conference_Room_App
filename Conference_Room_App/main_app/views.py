@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Room
 
 
@@ -44,3 +44,10 @@ def room_name(request, room_id):
         return render(request, 'room_name.html', {"room": room})
     except Room.DoesNotExist:
         return HttpResponse("Room does not exist!")
+
+
+def delete_room(request, room_id):
+    room = Room.objects.get(pk=room_id)
+    if request.method == 'GET':
+        room.delete()
+        return redirect('main_app:rooms_list')
