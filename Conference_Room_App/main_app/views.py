@@ -1,6 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .models import Room
+from django.utils import timezone
+from .models import Room, Reservation, Meta
+from datetime import datetime
 
 
 def home_page(request):
@@ -82,4 +84,25 @@ def modify_room(request, room_id):
             room.capacity = changed_capacity
             room.projector = changed_projector
             room.save()
-            return render(request, "base.html")
+            return redirect('main_app:rooms_list')
+
+
+def reserve_room(request, room_id):
+    room = Room.objects.get(id=room_id)
+    if request.method == 'GET':
+        return render(request, 'reserve_room.html',)
+    else:
+        date = request.POST["date"]
+        comment = request.POST["comment"]
+        timezone_date = timezone.make_aware(datetime.strptime(date, "%Y-%m-%d"),
+                                            timezone=timezone.get_current_timezone())
+        if not date:
+            return HttpResponse("You must provide a reservation date!")
+        elif Meta.objects.exists():
+            return HttpResponse("The room is already reserved!")
+        elif timezone_date < timezone.now():
+            return HttpResponse("The date cannot be from the past!")
+        else:
+            reservation = Reservation(date=date, comment=comment, room=room)
+            reservation.save()
+            return redirect('main_app:rooms_list')

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Reserve room{% endblock %}
+{% block header %}RESERVE {{ Room.name }}:{% endblock %}
+{% block content %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        <label for="date">Reservation Date</label>
+        <input type="date" name="date" id="date">
+        <br>
+        <label for="comment">Comment:</label>
+        <input type="text" name="comment" id="comment">
+        <br>
+        <input type="submit" value="RESERVE">
+    </form>    
+{% endblock %}
