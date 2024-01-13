@@ -11,7 +11,7 @@
     <p>Room availability: </p>
     <nav>
         <ul>
-            <li><a>EDIT</a></li>
+            <li><a href="{% url 'main_app:modify_room' room_id=room.id %}">EDIT</a></li>
             <li><a href="{% url 'main_app:delete_room' room_id=room.id %}">DELETE</a></li>
             <li><a>RESERVE</a></li>
         </ul>

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Modify Room{% endblock %}
+{% block header %}EDIT ROOM:{% endblock %}
+{% block content %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        <label for="name">Change room's name</label>
+        <input type="text" name="name" id="name">
+        <br>
+        <label for="capacity">Change room's capacity</label>
+        <input type="number" name="capacity" id="capacity">
+        <br>
+        <label for="projector">Availability of a projector</label>
+        <label>YES</label>
+        <input type="radio" name="projector" id="projector" value="True">
+        <label>NO</label>
+        <input type="radio" name="projector" id="projector" value="False">
+        <br>
+        <input type="submit" value="EDIT">
+    </form>    
+{% endblock %}
