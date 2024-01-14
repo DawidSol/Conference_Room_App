@@ -8,7 +8,12 @@
     {% else %}
         <p>Projector is not available</p>
     {% endif %}
-    <p>Room availability: </p>
+    {% if reservations is not None %}
+    <p>The Room is reserved:</p>
+    {% for reservation in reservations %}
+        <p>{{ reservation.date }} : {{ reservation.comment }}</p>
+    {% endfor %}
+    {% endif %}
     <nav>
         <ul>
             <li><a href="{% url 'main_app:modify_room' room_id=room.id %}">EDIT</a></li>

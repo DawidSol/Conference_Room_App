@@ -43,7 +43,8 @@ def rooms_list(request):
 def room_name(request, room_id):
     try:
         room = Room.objects.get(pk=room_id)
-        return render(request, 'room_name.html', {"room": room})
+        reservations = Reservation.objects.filter(room=room).order_by("date")
+        return render(request, 'room_name.html', {"room": room, "reservations": reservations})
     except Room.DoesNotExist:
         return HttpResponse("Room does not exist!")
 
