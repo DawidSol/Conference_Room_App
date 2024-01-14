@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.utils import timezone
-from .models import Room, Reservation, Meta
+from .models import Room, Reservation
 from datetime import datetime
 
 
@@ -98,7 +98,7 @@ def reserve_room(request, room_id):
                                             timezone=timezone.get_current_timezone())
         if not date:
             return HttpResponse("You must provide a reservation date!")
-        elif Meta.objects.exists():
+        elif Reservation.objects.filter(date=date, room_id=room).exists():
             return HttpResponse("The room is already reserved!")
         elif timezone_date < timezone.now():
             return HttpResponse("The date cannot be from the past!")
