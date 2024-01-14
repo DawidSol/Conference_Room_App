@@ -5,7 +5,12 @@
     {% for room in rooms %}
         <nav>
         <ul>
-            <li><a href="{% url 'main_app:room_name' room_id=room.id %}">{{ room.name }}</a></li>
+            <li><a href="{% url 'main_app:room_name' room_id=room.id %}">{{ room.name }}</a>
+            {% for reservation in reservations %}
+                {% if reservation.date == current_date and reservation.room == room %}
+                    RESERVED
+                {% endif %}
+            {% endfor %}</li>
         </ul>
     </nav>
         <br>

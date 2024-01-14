@@ -1,6 +1,5 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.utils import timezone
 from .models import Room, Reservation
 from datetime import datetime
 
@@ -34,10 +33,13 @@ def add_new_room(request):
 
 def rooms_list(request):
     rooms = Room.objects.all()
+    current_date = datetime.now().date()
+    reservations = Reservation.objects.all()
     if not rooms:
         return HttpResponse("No rooms found!")
     else:
-        return render(request, "rooms_list.html", {"rooms": rooms})
+        return render(request, "rooms_list.html", {"rooms": rooms, "current_date": current_date,
+                                                   "reservations": reservations})
 
 
 def room_name(request, room_id):
@@ -93,17 +95,16 @@ def reserve_room(request, room_id):
     if request.method == 'GET':
         return render(request, 'reserve_room.html',)
     else:
-        date = request.POST["date"]
+        reservation_date = request.POST["date"]
         comment = request.POST["comment"]
-        timezone_date = timezone.make_aware(datetime.strptime(date, "%Y-%m-%d"),
-                                            timezone=timezone.get_current_timezone())
-        if not date:
+        today_date = datetime.strptime(reservation_date, "%Y-%m-%d")
+        if not reservation_date:
             return HttpResponse("You must provide a reservation date!")
-        elif Reservation.objects.filter(date=date, room_id=room).exists():
+        elif Reservation.objects.filter(date=reservation_date, room_id=room).exists():
             return HttpResponse("The room is already reserved!")
-        elif timezone_date < timezone.now():
+        elif today_date.date() < datetime.now().date():
             return HttpResponse("The date cannot be from the past!")
         else:
-            reservation = Reservation(date=date, comment=comment, room=room)
+            reservation = Reservation(date=reservation_date, comment=comment, room=room)
             reservation.save()
             return redirect('main_app:rooms_list')
