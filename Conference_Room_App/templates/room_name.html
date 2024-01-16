@@ -10,7 +10,9 @@
     {% endif %}
     <p>Reserved Days:</p>
     {% for reservation in reservations %}
-        <p>{{ reservation.date }}, Comment: {{ reservation.comment }}</p>
+        {% if reservation.date >= current_date %}
+            <p>{{ reservation.date }}, Comment: {{ reservation.comment }}</p>
+        {% endif %}
     {% endfor %}
     <nav>
         <ul>

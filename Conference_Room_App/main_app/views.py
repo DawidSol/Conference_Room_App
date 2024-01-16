@@ -46,7 +46,9 @@ def room_name(request, room_id):
     try:
         room = Room.objects.get(pk=room_id)
         reservations = Reservation.objects.filter(room=room).order_by("date")
-        return render(request, 'room_name.html', {"room": room, "reservations": reservations})
+        current_date = datetime.now().date()
+        return render(request, 'room_name.html', {"room": room, "reservations": reservations,
+                                                  "current_date": current_date})
     except Room.DoesNotExist:
         return HttpResponse("Room does not exist!")
 
@@ -92,17 +94,20 @@ def modify_room(request, room_id):
 
 def reserve_room(request, room_id):
     room = Room.objects.get(id=room_id)
+    reservations = Reservation.objects.filter(room=room).order_by("date")
+    current_date = datetime.now().date()
     if request.method == 'GET':
-        return render(request, 'reserve_room.html',)
+        return render(request, 'reserve_room.html', {"reservations": reservations,
+                                                     "current_date": current_date})
     else:
         reservation_date = request.POST["date"]
         comment = request.POST["comment"]
-        today_date = datetime.strptime(reservation_date, "%Y-%m-%d")
+        today_date = datetime.strptime(reservation_date, "%Y-%m-%d").date()
         if not reservation_date:
             return HttpResponse("You must provide a reservation date!")
         elif Reservation.objects.filter(date=reservation_date, room_id=room).exists():
             return HttpResponse("The room is already reserved!")
-        elif today_date.date() < datetime.now().date():
+        elif today_date < current_date:
             return HttpResponse("The date cannot be from the past!")
         else:
             reservation = Reservation(date=reservation_date, comment=comment, room=room)

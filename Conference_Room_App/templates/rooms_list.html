@@ -8,7 +8,7 @@
             <li><a href="{% url 'main_app:room_name' room_id=room.id %}">{{ room.name }}</a>
             {% for reservation in reservations %}
                 {% if reservation.date == current_date and reservation.room == room %}
-                    RESERVED
+                    RESERVED TODAY
                 {% endif %}
             {% endfor %}</li>
         </ul>
