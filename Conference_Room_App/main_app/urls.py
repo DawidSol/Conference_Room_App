@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import home_page, add_new_room, rooms_list, room_name, delete_room, modify_room, reserve_room
+from .views import (home_page, add_new_room, rooms_list, room_name,
+                    delete_room, modify_room, reserve_room, search_room)
 app_name = 'main_app'
 
 urlpatterns = [
@@ -10,4 +11,5 @@ urlpatterns = [
     path('delete/<int:room_id>/', delete_room, name='delete_room'),
     path('modify/<int:room_id>/', modify_room, name='modify_room'),
     path('reserve/<int:room_id>/', reserve_room, name='reserve_room'),
+    path('search/', search_room, name='search_room'),
 ]

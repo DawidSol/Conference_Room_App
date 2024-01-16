@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Available Rooms{% endblock %}
+{% block header %}Availabe rooms:{% endblock %}
+{% block content %}
+    {% if rooms %}
+        {% for room in rooms %}
+            <nav>
+                <ul>
+                    <li><a href="{% url 'main_app:room_name' room_id=room.id %}">{{ room.name }}</a></li>
+                </ul>
+            </nav>
+        {% endfor %}
+    {% else %}
+        <p>No Room Found</p>
+    {% endif %}
+{% endblock %}

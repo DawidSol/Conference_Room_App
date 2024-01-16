@@ -113,3 +113,26 @@ def reserve_room(request, room_id):
             reservation = Reservation(date=reservation_date, comment=comment, room=room)
             reservation.save()
             return redirect('main_app:rooms_list')
+
+
+def search_room(request):
+    if request.method == 'GET':
+        name = request.GET.get("name")
+        min_capacity = request.GET.get("capacity")
+        projector = request.GET.get("projector")
+        if name:
+            rooms = Room.objects.filter(name=name)
+        else:
+            if min_capacity:
+                min_capacity = int(min_capacity)
+                if projector:
+                    rooms = Room.objects.filter(capacity__gte=min_capacity, projector_available=projector)
+                else:
+                    rooms = Room.objects.filter(capacity__gte=min_capacity)
+            else:
+                if projector:
+                    rooms = Room.objects.filter(projector_available=projector)
+                else:
+                    rooms = Room.objects.all()
+        return render(request, 'search_room.html', {"name": name, "min_capacity": min_capacity,
+                                                    "projector": projector, "rooms": rooms})
