@@ -75,15 +75,7 @@ WSGI_APPLICATION = 'Conference_Room_App.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'HOST': '127.0.0.1',
-        'NAME': 'conference_room_db',
-        'ENGINE': 'django.db.backends.postgresql',
-        'USER': 'postgres',
-        'PASSWORD': 'coderslab',
-    }
-}
+
 
 #DATABASES = {
 #    'default': {
